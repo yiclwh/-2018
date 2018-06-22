@@ -14,7 +14,39 @@ Follow up 4：要经过某些特定row怎么走？要先经过一个row再经过
 Follow up 3：可以再做一次 dp，但是只走 <= H 的路径，再用总数减一下
 Follow up 4：也是矩阵切割的思想，但是要处理先后顺序
 '''
+# time O(m*n) space O(n)
+def totalPath(m, n):
+    h = min(n, (m-1)//2 + 1)
+    flat = m - h
+    res = [1]
+    for i in range(1, h):
+        res = addPath(res, 1)
+    for i in range(flat):
+        res = addPath(res, 0)
+    # for i in range(h-1):
+    #     res = addPath(res, -1)
+    return res[0]
 
+def addPath(prev, delta):
+    prev_l = len(prev)
+    l = prev_l + delta
+    res = []
+    for i in range(l):
+        temp = 0
+        if 0 <= i - 1 < prev_l:
+            temp += prev[i-1]
+        if 0 <= i < prev_l:
+            temp += prev[i]
+        if 0 <= i + 1 < prev_l:
+            temp += prev[i+1]
+        res.append(temp)
+    return res
+
+print('m=2, n =2, expected 1 -> got {}'.format(totalPath(2,2)))
+print('m=5, n =2, expected 8 -> got {}'.format(totalPath(5,2)))
+print('m=5, n =10, expected 9 -> got {}'.format(totalPath(5,10)))
+print('m=2, n =5, expected 1 -> got {}'.format(totalPath(2,5)))
+print('m=100, n =100, expected -> 249478578991224378680142561460010030467811580 got {}'.format(totalPath(100,100)))
 
 
 
