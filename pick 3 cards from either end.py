@@ -11,6 +11,23 @@ def helper(values, start, end, cache):
     cache[(start, end)] = result
     return result
 
+def getMostPoint(cards):
+    n = len(cards)
+    dp = [[0 for i in range(n)] for i in range(n)]
+    for i,c in enumerate(cards):
+        dp[i][i] = c
+    for i in range(n):
+        for j in range(i+1,n):
+            front = back = 0
+            for k in range(1,4):
+                if j - i >= k-1 and i + k < n:
+                    front += cards[i+k-1]
+                    back += cards[j-k+1]
+                    dp[i][j] = max(dp[i][j], max(front - dp[i+k][j], back - dp[i][j-k]))
+    return dp[0][n-1]
+
+print(getMostPoint([1,1,5,4,2,1]))
+
 # DP
 def findMaxValue(values):
     if not values:
