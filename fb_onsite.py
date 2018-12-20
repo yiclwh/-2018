@@ -16,3 +16,18 @@ BQ 刘尔易
 第四轮
 酒吧 耳武期
 '''
+def findMostFrequent(s):
+    import collections
+    record = collections.defaultdict(int)
+    res = ''
+    count = 0
+    for c in s:
+        if c.isalnum():
+            c = c.lower()
+            record[c] += 1
+            if record[c] > count:
+                count = record[c]
+                res = c
+    return res
+    
+print(findMostFrequent('apple'))
